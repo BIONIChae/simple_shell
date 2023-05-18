@@ -7,9 +7,9 @@ The program must have the exact same output and error output as sh (/bin/sh).
 The program name must be equivalent to your argv[0].
 
 List of allowed system calls and functions:
-access; chdir; close; closedir; execve; exit; _exit; 
-fflush; fork; free; getcwd; getline; getpid; isatty; 
-kill; malloc; open; opendir; perror; read; readdir; 
+access; chdir; close; closedir; execve; exit; _exit;
+fflush; fork; free; getcwd; getline; getpid; isatty;
+kill; malloc; open; opendir; perror; read; readdir;
 signal; stat; lstat; fstat; strtok; wait; waitpid;
 wait3; wait4; write.
 
@@ -39,7 +39,3 @@ $ cat testls2 | ./hsh
 hsh main.c shell.c testls2
 hsh main.c shell.c testls2
 $
-
-
-
-
