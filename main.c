@@ -8,41 +8,41 @@
 
 int main(void)
 {
-char *command;
+char *cmd;
 size_t size = 0;
 while (1)
 {
 write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: ");
-getline(&command, &size, stdin);
-if (command[strlen(command) - 1] == '\n')
+getline(&cmd, &size, stdin);
+if (cmd[strlen(cmd) - 1] == '\n')
 {
-command[strlen(command) - 1] = '\0';
+cmd[strlen(cmd) - 1] = '\0';
 }
-if (strcmp(command, "exit") == 0)
+if (strcmp(cmd, "exit") == 0)
 {
 break;
 }
-else if (command[0] == '\0')
+else if (cmd[0] == '\0')
 {
 continue;
 }
-int status = execve(command, NULL, NULL);
+int status = execve(cmd, NULL, NULL);
 if (status != 0)
 {
 int errnum = errno;
 switch (errnum)
 {
 case ENOENT:
-write(2, "Command not found\n", 17);
+write(2, "Error: command not found\n", 17);
 break;
 case EACCES:
 write(2, "Permission denied\n", 16);
 break;
 case ENOMEM:
-write(2, "Out of memory\n", 13);
+write(2, "Insufficient memory\n", 13);
 break;
 default:
-write(2, "Unknown error\n", 12);
+write(2, "An unknown error has been detected\n", 12);
 break;
 }
 }

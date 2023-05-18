@@ -31,6 +31,6 @@ int handle_comments(char **args);
 int handle_variables(char **args);
 int alias(char **args);
 
-int main(int argc, char **argv);
+int main(void);
 
 #endif
