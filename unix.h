@@ -10,7 +10,7 @@
 #define SHELL_NAME "hsh"
 #define MAX_ARGS 1024
 
-extern char **environ
+extern char **environ;
 
 void split_str(char *str, char delim);
 int _exiting_(int count, char **vec);

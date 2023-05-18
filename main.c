@@ -1,4 +1,5 @@
 #include "unix.h"
+#define SHELL_NAME "hsh"
 
 /**
 * main - The main function.
