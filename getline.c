@@ -9,12 +9,12 @@
  * Return: 0 on success, -1 on failure.
  */
 ssize_t getline_from_scratch(char **read_line,
-		size_t *buf_size)
+		size_t *size_of_buf)
 {
 	int count = 0;
-	size_t sz = *buf_size * 2;
+	size_t sz = size_of_buf * 2;
 
-	if (read_line == NULL || buf_size == NULL)
+	if (read_line == NULL || size_of_buf == NULL)
 	{
 		perror("1: An error has occured");
 		exit(EXIT_FAILURE);
@@ -22,13 +22,13 @@ ssize_t getline_from_scratch(char **read_line,
 	for (; read_line[count] != NULL; count++)
 		;
 
-	buf_size = malloc(sizeof(char) * (count + 1));
+	size_of_buf = malloc(sizeof(char) * (count + 1));
 
-	if (buf_size == NULL)
+	if (size_of_buf == NULL)
 	{
 		perror("1: malloc: process failed!\n");
 		return (-1);
 	}
-	free(buf_size);
+	free(size_of_buf);
 	return (0);
 }
