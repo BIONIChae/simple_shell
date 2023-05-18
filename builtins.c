@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "unix.h"
-#include "shell.c"
+#include "main.c"
 
 /**
 * setenv - initializes a new environment variable, or modifies an existing one.

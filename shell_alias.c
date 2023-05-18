@@ -4,7 +4,7 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "unix.h"
-#include "shell.c"
+#include "main.c"
 
 /**
 * alias - define or display aliases

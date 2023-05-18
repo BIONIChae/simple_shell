@@ -1,29 +1,51 @@
 #include "unix.h"
 
 /**
- * main - The main function.
- * @ac: The arg count.
- * @av: arg vector.
- *
- * Return: 0
- */
-int main(int ac, char **av)
+* main - The main function.
+*
+* Return: 0
+*/
+
+int main(void)
 {
-	char cmd_prompt[1060];
-
-	while (1)
-	{
-		interpret("Enter your name: ");
-	}
-	return (0);
-	handle_args(4, ("Joe", "Meghan", "Ryan", "Ben"));
-	in_path("/root/bin/simple_shell");
-	exiting();
-	print_env();
-	getline_from_scratch(&line, &buf_size, stdin);
-	char str[] = "Hi, how are you? ";
-
-	split_str(str, ' ');
-	_exiting_();
-	return (0);
+char *command;
+size_t size = 0;
+while (1)
+{
+write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: ");
+getline(&command, &size, stdin);
+if (command[strlen(command) - 1] == '\n')
+{
+command[strlen(command) - 1] = '\0';
+}
+if (strcmp(command, "exit") == 0)
+{
+break;
+}
+else if (command[0] == '\0')
+{
+continue;
+}
+int status = execve(command, NULL, NULL);
+if (status != 0)
+{
+int errnum = errno;
+switch (errnum)
+{
+case ENOENT:
+write(2, "Command not found\n", 17);
+break;
+case EACCES:
+write(2, "Permission denied\n", 16);
+break;
+case ENOMEM:
+write(2, "Out of memory\n", 13);
+break;
+default:
+write(2, "Unknown error\n", 12);
+break;
+}
+}
+}
+return (0);
 }
