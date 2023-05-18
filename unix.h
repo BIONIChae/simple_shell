@@ -16,8 +16,7 @@ void split_str(char *str, char delim);
 int _exiting_(int count, char **vec);
 int print_env(void);
 int exiting(void);
-ssize_t getline_from_scratch(char **read_line,
-size_t *buf_size, FILE *data_stream);
+ssize_t getline_from_scratch(char **read_line, size_t *buf_size);
 int handle_args(int count, char **vec);
 int in_path(char *path);
 void split_str(char *str, char delim);

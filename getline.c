@@ -9,11 +9,10 @@
  * Return: 0 on success, -1 on failure.
  */
 ssize_t getline_from_scratch(char **read_line,
-		size_t *buf_size, FILE *data_stream)
+		size_t *buf_size)
 {
-	int count = 0, i;
+	int count = 0;
 	size_t sz = *buf_size * 2;
-	char *updated_buf = malloc(sz);
 
 	if (read_line == NULL || buf_size == NULL)
 	{
@@ -23,7 +22,7 @@ ssize_t getline_from_scratch(char **read_line,
 	for (; read_line[count] != NULL; count++)
 		;
 
-	*buf_size = malloc(sizeof(char) * (count + 1));
+	buf_size = malloc(sizeof(char) * (count + 1));
 
 	if (buf_size == NULL)
 	{

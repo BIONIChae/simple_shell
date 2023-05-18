@@ -11,7 +11,7 @@ int print_env(void)
 
 	while (environ[count] != NULL)
 	{
-		write(STDOUT_FILENO, environ[count], sizeof(environ[count]);
+		write(STDOUT_FILENO, environ[count], sizeof(environ[count]));
 		write(STDOUT_FILENO, "\n", 1);
 		count++;
 	}
