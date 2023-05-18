@@ -13,10 +13,10 @@
 * @overwrite: replacing the existing value of a variable with a new value
 * Return: 0 on success,1 on failure.
 */
-int setenv(char *variable, char *value, int overwrite)
+int setenv(const char *variable,const char *value, int overwrite)
 {
 /*Check for the correct number of arguments*/
-if (argc < 3)
+if (argc < 2)
 {
 write(2, "Usage: setenv VARIABLE VALUE\n", 33);
 return (1);
@@ -46,7 +46,7 @@ return (0);
 * @variable: a named storage location that holds a value.
 * Return: 0 on success,1 on failure
 */
-int unsetenv(char *variable)
+int unsetenv(const char *variable)
 {
 /*Check for the correct number of arguments*/
 if (argc < 2)
@@ -73,7 +73,7 @@ return (0);
 int cd(char **argv)
 {
 /*Check for the correct number of arguments*/
-if (argc < 1)
+if (argc == 0)
 {
 chdir(getenv("HOME"));
 }
@@ -94,7 +94,6 @@ perror("getcwd");
 return (1);
 }
 setenv("PWD", cwd, 1);
-
 return (0);
 }
 

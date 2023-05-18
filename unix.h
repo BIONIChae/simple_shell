@@ -22,8 +22,8 @@ int in_path(char *path);
 void split_str(char *str, char delim);
 int interpret(char *cmd_input);
 
-int setenv(char *variable, char *value, int overwrite);
-int unsetenv(char *variable);
+int setenv(const char *variable, const char *value, int overwrite);
+int unsetenv(const char *variable);
 int cd(char **argv);
 int handle_command_file(char *filename);
 int handle_comments(char **args);
