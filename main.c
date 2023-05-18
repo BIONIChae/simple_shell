@@ -1,4 +1,5 @@
 #include "unix.h"
+#include <errno.h>
 #define SHELL_NAME "hsh"
 
 /**
@@ -13,7 +14,7 @@ char *cmd;
 size_t size = 0;
 while (1)
 {
-write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: ");
+write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
 getline(&cmd, &size, stdin);
 if (cmd[strlen(cmd) - 1] == '\n')
 {
