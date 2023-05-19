@@ -8,33 +8,30 @@
 
 /**
 * main - Entry point
-* @argc: Number of command-line arguments
-* @argv: Array of command-line arguments
-* @envp: Array of environment variables
 *
 * Return: Always 0
 */
-int main(int argc, char **argv, char **envp)
+int main(void)
 {
-char *cmd = NULL;
+char **envp = environ, *cmd = NULL;
 size_t size = 0;
-
+char *a[] = {NULL, NULL};
+int status, errnum;;
 while (1)
 {
 write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
 getline(&cmd, &size, stdin);
-
 if (cmd[strlen(cmd) - 1] == '\n')
 cmd[strlen(cmd) - 1] = '\0';
-
 if (strcmp(cmd, "exit") == 0)
 break;
 else if (cmd[0] == '\0')
 continue;
-int status = execve(cmd, NULL, envp);
+a[0] = cmd;
+status = execve(cmd, a, envp);
+errnum = errno;
 if (status != 0)
 {
-int errnum = errno;
 switch (errnum)
 {
 case ENOENT:

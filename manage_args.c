@@ -19,7 +19,7 @@ int handle_args(int count, char **vec)
 
 	for (; len < count; len++)
 	{
-		write(STDOUT_FILENO, vec[len], sizeof(vec[len]));
+		write(STDOUT_FILENO, vec[len], strlen(vec[len]));
 	}
 	return (0);
 }

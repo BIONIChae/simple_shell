@@ -19,7 +19,7 @@ int interpret(char *cmd_input)
 
 	while (run)
 	{
-		write(STDOUT_FILENO, "simple_shell > ", sizeof("simple_shell > ") - 1);
+		write(STDOUT_FILENO, "simple_shell > ", strlen("simple_shell > ") - 1);
 		fflush(stdout);
 
 		if (getline(&cmd_input, &buffer, STDIN_FILENO) == EOF)

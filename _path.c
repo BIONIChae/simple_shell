@@ -31,13 +31,13 @@ int in_path(char *path)
 			if (access(element, X_OK) == 0)
 			{
 				buf = "Is an executable\n";
-				write(STDOUT_FILENO, buf, sizeof(buf));
+				write(STDOUT_FILENO, buf, strlen(buf));
 				;
 			}
 			element = strtok(NULL, "/");
 		}
 		buf = "1: Executable: not found\n";
-		write(STDOUT_FILENO, buf, sizeof(buf));
+		write(STDOUT_FILENO, buf, strlen(buf));
 		return (-1);
 	}
 	wait(NULL);

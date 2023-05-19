@@ -5,8 +5,9 @@
  * @str: The string to be split.
  * @delim: Marking point to split.
  *
+ * Return: 0
  */
-void split_str(char *str, char delim)
+char split_str(char *str, char delim)
 {
 	int i = 0;
 	char *tok = &str[i];
@@ -18,9 +19,9 @@ void split_str(char *str, char delim)
 	{
 		if (*tok == delim)
 			break;
-		write(STDOUT_FILENO, tok, sizeof(char));
+		write(STDOUT_FILENO, tok, strlen(tok));
 		tok++;
 	}
 	write(STDOUT_FILENO, str, sizeof(str) - 1);
-
+	return (0);
 }
