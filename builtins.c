@@ -4,57 +4,63 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "unix.h"
-#include "main.c"
 
 /**
-* setenv - initializes a new environment variable, or modifies an existing one.
+* my_setenv - initializes new environment variable,or modifies an existing one
 * @variable: a named storage location that holds a value.
-* @value: data stored in a variable
-* @overwrite: replacing the existing value of a variable with a new value
-* Return: 0 on success,1 on failure.
+* @value: data stored in a variable.
+* @overwrite: replacing the existing value of a variable with a new value.
+* Return: 0 on success, 1 on failure.
 */
-int setenv(const char *variable,const char *value, int overwrite)
+int my_setenv(const char *variable, const char *value, int overwrite)
 {
-/*Check for the correct number of arguments*/
-if (argc < 2)
+int result;
+
+/* Check for the correct number of arguments */
+if (variable == NULL || value == NULL)
 {
-write(2, "Usage: setenv VARIABLE VALUE\n", 33);
+write(2, "Usage: setenv VARIABLE VALUE\n", 29);
 return (1);
 }
 
-/*Check if the variable already exists*/
+/* Check if the variable already exists */
 if (getenv(variable) != NULL)
 {
 if (overwrite == 0)
 {
-write(2, "The variable '%s' already exists.\n", variable);
+write(2, "The variable '", 14);
+write(2, variable, strlen(variable));
+write(2, "' already exists.\n", 18);
 return (1);
 }
 }
-int result = setenv(variable, value, 1);
+result = setenv(variable, value, 1);
 
 if (result < 0)
 {
 perror("setenv");
 return (1);
 }
+
 return (0);
 }
 
 /**
-* unsetenv - removes an environment variable.
+* my_unsetenv - removes an environment variable.
 * @variable: a named storage location that holds a value.
-* Return: 0 on success,1 on failure
+* Return: 0 on success, 1 on failure.
 */
-int unsetenv(const char *variable)
+int my_unsetenv(const char *variable)
 {
-/*Check for the correct number of arguments*/
-if (argc < 2)
+int result;
+/* Check for the correct number of arguments */
+if (variable == NULL)
 {
-write(2, "Usage: unsetenv VARIABLE\n", 33);
+write(2, "Usage: unsetenv VARIABLE\n", 25);
 return (1);
 }
-int result = unsetenv(variable);
+
+result = unsetenv(variable);
 
 if (result < 0)
 {
@@ -68,12 +74,15 @@ return (0);
 /**
 * cd - changes the current directory of the process.
 * @argv: an array of strings containing the argument.
-* Return: 0 on success,1 on failure
+* Return: 0 on success, 1 on failure.
 */
 int cd(char **argv)
 {
-/*Check for the correct number of arguments*/
-if (argc == 0)
+int result;
+char cwd[4096];
+
+/* Check for the correct number of arguments */
+if (argv[1] == NULL)
 {
 chdir(getenv("HOME"));
 }
@@ -83,17 +92,26 @@ chdir(getenv("OLDPWD"));
 }
 else
 {
-chdir(argv[1]);
+if (chdir(argv[1]) != 0)
+{
+perror("cd");
+return (1);
+}
 }
 
-/* Update the environment variable PWD*/
-char cwd[PATH_MAX];
+/* Update the environment variable PWD */
 if (getcwd(cwd, sizeof(cwd)) == NULL)
 {
 perror("getcwd");
 return (1);
 }
-setenv("PWD", cwd, 1);
-return (0);
+
+result = my_setenv("PWD", cwd, 1);
+
+if (result != 0)
+{
+return (1);
 }
 
+return (0);
+}

@@ -6,9 +6,12 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <errno.h>
+#include <stddef.h>
 
 #define SHELL_NAME "hsh"
 #define MAX_ARGS 1024
+#define SIZE 512
 
 extern char **environ;
 
@@ -23,13 +26,18 @@ int in_path(char *path);
 char split_str(char *str, char delim);
 int interpret(char *cmd_input);
 
-int setenv(const char *variable, const char *value, int overwrite);
-int unsetenv(const char *variable);
+int my_setenv(const char *variable, const char *value, int overwrite);
+int my_unsetenv(const char *variable);
 int cd(char **argv);
 int handle_command_file(char *filename);
-int handle_comments(char **args);
-int handle_variables(char **args);
+int handle_comments(char (*args)[1024]);
+int handle_variables(char (*args)[1024]);
 int alias(char **args);
+<<<<<<< HEAD
 int main(void);
 
+=======
+
+int main(int argc, char **argv, char **envp);
+>>>>>>> be1fe497604ffe5bfd4411eb04b4f840637503c7
 #endif

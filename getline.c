@@ -1,15 +1,16 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "unix.h"
 
 /**
- * getline_from_scratch - A custom getline function.
- * @read_line: A double pointer which reads the input.
- * @buf_size: The size of the buffer.
- * @data_stream: Pointer to the file object.
- *
- * Return: 0 on success, -1 on failure.
- */
-ssize_t getline_from_scratch(char **read_line,
-		size_t *size_of_buf)
+* getline_from_scratch - A custom getline function.
+* @read_line: A double pointer which reads the input.
+* @size_of_buf: The size of the buffer.
+*
+* Return: 0 on success, -1 on failure.
+*/
+
+ssize_t getline_from_scratch(char **read_line, size_t *size_of_buf)
 {
 	int count = 0, x = 0, fetchar = getchar();
 	size_t *mem, *new_mem;
@@ -44,7 +45,7 @@ ssize_t getline_from_scratch(char **read_line,
 				free(mem);
 				return (-1);
 			}
-			for (; x < count; x++)
+			for (; new_mem[x] != '\0'; x++)
 			{
 				new_mem[x] = mem[x];
 			}

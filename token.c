@@ -5,7 +5,6 @@
  * @str: The string to be split.
  * @delim: Marking point to split.
  *
- * Return: 0
  */
 void split_str(char *str, char delim)
 {
@@ -23,5 +22,5 @@ void split_str(char *str, char delim)
 		tok++;
 	}
 	write(STDOUT_FILENO, str, sizeof(str) - 1);
-	return (0);
+
 }
