@@ -4,7 +4,6 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "unix.h"
-#include "main.c"
 
 int handle_variables(char (*args)[1024]);
 

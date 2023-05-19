@@ -4,50 +4,50 @@
 #include <unistd.h>
 #include "unix.h"
 #include <errno.h>
+#define STDOUT_FD 1
+#define STDERR_FD 2
 #define SHELL_NAME "hsh"
 
 /**
 * main - Entry point
-* @argc: Number of command-line arguments
-* @argv: Array of command-line arguments
-* @envp: Array of environment variables
-*
 * Return: Always 0
 */
-int main(int argc, char **argv, char **envp)
+int main(void)
 {
 char *cmd = NULL;
+char *const args[] = {cmd, NULL};
+int status = execve(cmd,
 size_t size = 0;
-
+int status;
 while (1)
 {
-write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
-getline(&cmd, &size, stdin);
-
+write(STDOUT_FD, "Enter a command: ", strlen("Enter a command: "));
+if (getline(&cmd, &size, stdin) == -1)
+{
+perror("getline");
+exit(EXIT_FAILURE);
+}
 if (cmd[strlen(cmd) - 1] == '\n')
 cmd[strlen(cmd) - 1] = '\0';
-
 if (strcmp(cmd, "exit") == 0)
 break;
 else if (cmd[0] == '\0')
 continue;
-int status = execve(cmd, NULL, envp);
-if (status != 0)
+if (status == -1)
 {
-int errnum = errno;
-switch (errnum)
+switch (errno)
 {
 case ENOENT:
-write(2, "Error: command not found\n", strlen("Error: command not found\n"));
+write(STDERR_FD, "404:Command not found\n", strlen("404:Command not found\n"));
 break;
 case EACCES:
-write(2, "Permission denied\n", strlen("Permission denied\n"));
+write(STDERR_FD, "Permission denied\n", strlen("Permission denied\n"));
 break;
 case ENOMEM:
-write(2, "Insufficient memory\n", strlen("Insufficient memory\n"));
+write(STDERR_FD, "Insufficient memory\n", strlen("Insufficient memory\n"));
 break;
 default:
-write(2, "Unknown error detected\n", strlen("Unknown error detected\n"));
+write(STDERR_FD, "Error\n", strlen("Error\n"));
 break;
 }
 }

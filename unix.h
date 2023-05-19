@@ -9,6 +9,8 @@
 #include <errno.h>
 #include <stddef.h>
 
+#define STDOUT_FD 1
+#define STDERR_FD 2
 #define SHELL_NAME "hsh"
 #define MAX_ARGS 1024
 #define SIZE 512
@@ -33,5 +35,5 @@ int handle_comments(char (*args)[1024]);
 int handle_variables(char (*args)[1024]);
 int alias(char **args);
 
-int main(int argc, char **argv, char **envp);
+int main(void);
 #endif
