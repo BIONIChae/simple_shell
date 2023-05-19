@@ -4,7 +4,6 @@
 #include <sys/wait.h>
 #include <string.h>
 #include "unix.h"
-#include "main.c"
 
 /**
 * alias - define or display aliases
@@ -18,7 +17,8 @@ int alias(char **args)
 if (args[1] == NULL)
 {
 /*If not, print a list of all aliases.*/
-for (char **alias = environ; *alias != NULL; alias++)
+char **alias;
+for (alias = environ; *alias != NULL; alias++)
 {
 if (strncmp(*alias, "alias=", 6) == 0)
 {
@@ -29,7 +29,8 @@ puts(*alias);
 else
 {
 /*If the user has provided arguments, define an alias for each argument.*/
-for (int i = 1; args[i] != NULL; i++)
+int i;
+for (i = 1; args[i] != NULL; i++)
 {
 /*Check if the alias already exists.*/
 char *alias_name = args[i];
