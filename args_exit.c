@@ -1,4 +1,5 @@
 #include "unix.h"
+#include "main.c"
 
 /**
  * _exiting_ - Exits the shell using an int.

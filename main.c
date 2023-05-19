@@ -10,32 +10,31 @@
 
 /**
 * main - Entry point
+* 
 * Return: Always 0
 */
 int main(void)
 {
-char *cmd = NULL;
-char *const args[] = {cmd, NULL};
-int status = execve(cmd,
+char **envp = environ, *cmd = NULL;
 size_t size = 0;
-int status;
+char *a[] = {NULL, NULL};
+int status, errnum;;
 while (1)
 {
-write(STDOUT_FD, "Enter a command: ", strlen("Enter a command: "));
-if (getline(&cmd, &size, stdin) == -1)
-{
-perror("getline");
-exit(EXIT_FAILURE);
-}
+write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
+getline(&cmd, &size, stdin);
 if (cmd[strlen(cmd) - 1] == '\n')
 cmd[strlen(cmd) - 1] = '\0';
 if (strcmp(cmd, "exit") == 0)
 break;
 else if (cmd[0] == '\0')
 continue;
-if (status == -1)
+a[0] = cmd;
+status = execve(cmd, a, envp);
+errnum = errno;
+if (status != 0)
 {
-switch (errno)
+switch (errnum)
 {
 case ENOENT:
 write(STDERR_FD, "404:Command not found\n", strlen("404:Command not found\n"));

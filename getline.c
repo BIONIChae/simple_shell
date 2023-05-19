@@ -11,31 +11,45 @@
 */
 
 ssize_t getline_from_scratch(char **read_line, size_t *size_of_buf)
-
 {
-int count;
-char *new_buffer;
+	int count = 0, x = 0, fetchar = getchar();
+	size_t *mem = malloc(1 * (*size_of_buf)), *new_mem;
 
-if (read_line == NULL || size_of_buf == NULL)
-{
-perror("1: An error has occurred");
-exit(EXIT_FAILURE);
-}
-
-for (count = 0; (*read_line)[count] != '\0'; count++)
-{
-}
-
-*size_of_buf = sizeof(char) * (count + 1);
-new_buffer = malloc(*size_of_buf);
-
-if (new_buffer == NULL)
-{
-perror("1: malloc: process failed!\n");
-return (-1);
-}
-
-free(*read_line);
-*read_line = new_buffer;
-return (0);
+	if (read_line == NULL || size_of_buf == NULL)
+	{
+		perror("1: An error has occured\n");
+		exit(EXIT_FAILURE);
+	}
+	if (mem == NULL)
+	{
+		perror("Error: malloc: process failed!\n");
+		return (-1);
+	}
+	while (1)
+	{
+		if (fetchar == EOF || fetchar == '\n')
+		{
+			mem[count] = '\0';
+			break;
+		}
+		mem[count++] = fetchar;
+		if ((size_t)count >= *size_of_buf)
+		{
+			*size_of_buf *= 2;
+			new_mem = malloc(1 * (*size_of_buf));
+			if (new_mem == NULL)
+			{
+				perror("Error: malloc: process failed\n");
+				free(mem);
+				return (-1);
+			}
+			for (; new_mem[x] != '\0'; x++)
+				new_mem[x] = mem[x];
+			free(mem);
+			mem = new_mem;
+		}
+		fetchar = getchar();
+	}
+	*read_line = (char *)mem;
+	return (count);
 }
