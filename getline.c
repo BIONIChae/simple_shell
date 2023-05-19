@@ -11,24 +11,49 @@
 ssize_t getline_from_scratch(char **read_line,
 		size_t *size_of_buf)
 {
-	int count = 0;
-	size_t sz = size_of_buf * 2;
+	int count = 0, x = 0, fetchar = getchar();
+	size_t *mem, *new_mem;
 
 	if (read_line == NULL || size_of_buf == NULL)
 	{
-		perror("1: An error has occured");
+		perror("1: An error has occured\n");
 		exit(EXIT_FAILURE);
 	}
-	for (; read_line[count] != NULL; count++)
-		;
-
-	size_of_buf = malloc(sizeof(char) * (count + 1));
-
-	if (size_of_buf == NULL)
+	mem = malloc(1 * (size_of_buf));
+	if (mem == NULL)
 	{
 		perror("1: malloc: process failed!\n");
 		return (-1);
 	}
-	free(size_of_buf);
-	return (0);
+	while (1)
+	{
+		if (fetchar == EOF || fetchar == '\n')
+		{
+			mem[count] = '\0';
+			break;
+		}
+		mem[count] = fetchar;
+		count++;
+		if (count >= *size_of_buf)
+		{
+			*size_of_buf *= 2;
+			new_mem = malloc(1 * (*size_of_buf));
+			if (new_mem == NULL)
+			{
+				perror("Error: malloc: process failed\n");
+				free(mem);
+				return (-1);
+			}
+			for (; x < count; x++)
+			{
+				new_mem[x] = mem[x];
+			}
+			free(mem);
+			mem = new_mem;
+		}
+		fetchar = getchar();
+	}
+	*read_line = mem;
+
+	return (count);
 }

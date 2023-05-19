@@ -12,14 +12,15 @@
 
 extern char **environ;
 
-void split_str(char *str, char delim);
+
 int _exiting_(int count, char **vec);
 int print_env(void);
 int exiting(void);
-ssize_t getline_from_scratch(char **read_line, size_t *buf_size);
+ssize_t getline_from_scratch(char **read_line, size_t *size_of_buf);
+int call_getline(void);
 int handle_args(int count, char **vec);
 int in_path(char *path);
-void split_str(char *str, char delim);
+char split_str(char *str, char delim);
 int interpret(char *cmd_input);
 
 int setenv(const char *variable, const char *value, int overwrite);
@@ -29,7 +30,6 @@ int handle_command_file(char *filename);
 int handle_comments(char **args);
 int handle_variables(char **args);
 int alias(char **args);
-
 int main(void);
 
 #endif
