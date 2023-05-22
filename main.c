@@ -10,28 +10,32 @@
 
 /**
 * main - Entry point
-* 
+*
 * Return: Always 0
 */
 int main(void)
 {
-char **envp = environ, *cmd = NULL;
 size_t size = 0;
-char *a[] = {NULL, NULL};
-int status, errnum;;
+char *inputComm = NULL, *arg[10] = {NULL}, *value;
+int status, errnum = errno, counter = 0;
 while (1)
 {
 write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
-getline(&cmd, &size, stdin);
-if (cmd[strlen(cmd) - 1] == '\n')
-cmd[strlen(cmd) - 1] = '\0';
-if (strcmp(cmd, "exit") == 0)
+getline(&inputComm, &size, stdin);
+if (inputComm[strlen(inputComm) - 1] == '\n')
+inputComm[strlen(inputComm) - 1] = '\0';
+if (strcmp(inputComm, "exit") == 0)
 break;
-else if (cmd[0] == '\0')
+else if (inputComm[0] == '\0')
 continue;
-a[0] = cmd;
-status = execve(cmd, a, envp);
-errnum = errno;
+value = strtok(inputComm, " ");
+while (value != NULL)
+{
+arg[counter] = value;
+counter++;
+value = strtok(NULL, " ");
+}
+status = execv(arg[0], arg);
 if (status != 0)
 {
 switch (errnum)
@@ -42,15 +46,12 @@ break;
 case EACCES:
 write(STDERR_FD, "Permission denied\n", strlen("Permission denied\n"));
 break;
-case ENOMEM:
-write(STDERR_FD, "Insufficient memory\n", strlen("Insufficient memory\n"));
-break;
 default:
-write(STDERR_FD, "Error\n", strlen("Error\n"));
+write(STDERR_FD, "Error detected\n", strlen("Error detected\n"));
 break;
 }
 }
 }
-free(cmd);
+free(inputComm);
 return (0);
 }
