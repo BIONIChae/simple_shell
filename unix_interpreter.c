@@ -14,7 +14,7 @@ int interpret(char *cmd_input)
 	for (; cmd_input[count] != '\0'; count++)
 	{
 		if (count > 1)
-			exit(1);
+			exit(EXIT_FAILURE);
 	}
 
 	while (run)
@@ -25,7 +25,7 @@ int interpret(char *cmd_input)
 		if (getline(&cmd_input, &buffer, STDIN_FILENO) == EOF)
 		{
 			perror("An error has occured\n");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		if (cmd_input == NULL)
 		{

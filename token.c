@@ -13,7 +13,7 @@ char split_str(char *str, char delim)
 	char *tok = &str[i];
 
 	if (str == NULL)
-		exit(0);
+		exit(EXIT_SUCCESS);
 
 	for (; *tok != '\0'; i++)
 	{

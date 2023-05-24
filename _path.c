@@ -15,7 +15,7 @@ int in_path(char *path)
 	if (path == NULL)
 	{
 		perror("1: path: not found");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if (process_ID < 0)

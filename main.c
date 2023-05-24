@@ -52,6 +52,5 @@ break;
 }
 }
 }
-free(inputComm);
 return (0);
 }
