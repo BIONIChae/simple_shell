@@ -18,9 +18,16 @@ int main(void)
 size_t size = 0;
 char *inputComm = NULL, *arg[5] = {NULL}, *value;
 int status, errnum = errno, counter = 0, i = 0;
-while (write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "))
-&& getline(&inputComm, &size, stdin) == -1)
+while (1)
 {
+write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
+if (getline(&inputComm, &size, stdin) == -1)
+{
+perror("Error in getline");
+free(inputComm);
+inputComm = NULL;
+break;
+}
 if (inputComm[strlen(inputComm) - 1] == '\n')
 inputComm[strlen(inputComm) - 1] = '\0';
 if (strcmp(inputComm, "exit") == 0)
@@ -31,9 +38,12 @@ counter = 0;
 for (value = strtok(inputComm, " "); value != NULL && counter < 4;
 value = strtok(NULL, " "))
 {
-arg[counter++] = strdup(value);
+arg[counter] = strdup(value);
+counter++;
 }
 arg[counter] = NULL;
+if (counter == 4 && value != NULL)
+perror("Too many arguments\n");
 status = execvp(arg[0], arg);
 if (status != 0)
 {
