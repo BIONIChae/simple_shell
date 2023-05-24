@@ -37,6 +37,7 @@ int interpret(char *cmd_input)
 			perror("Error: Executable not found\n");
 			continue;
 		}
+		free(cmd_input);
 	}
 	return (0);
 }

@@ -22,6 +22,6 @@ char split_str(char *str, char delim)
 		write(STDOUT_FILENO, tok, strlen(tok));
 		tok++;
 	}
-	write(STDOUT_FILENO, str, sizeof(str) - 1);
+	write(STDOUT_FILENO, str, strlen(str));
 	return (0);
 }
