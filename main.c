@@ -16,41 +16,46 @@
 int main(void)
 {
 size_t size = 0;
-char *inputComm = NULL, *arg[10] = {NULL}, *value;
-int status, errnum = errno, counter = 0;
-while (1)
+char *inputComm = NULL, *arg[5] = {NULL}, *value;
+int status, errnum = errno, counter = 0, i = 0;
+while (write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "))
+&& getline(&inputComm, &size, stdin) == -1)
 {
-write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
-getline(&inputComm, &size, stdin);
 if (inputComm[strlen(inputComm) - 1] == '\n')
 inputComm[strlen(inputComm) - 1] = '\0';
 if (strcmp(inputComm, "exit") == 0)
 break;
 else if (inputComm[0] == '\0')
 continue;
-value = strtok(inputComm, " ");
-while (value != NULL)
+counter = 0;
+for (value = strtok(inputComm, " "); value != NULL && counter < 4;
+value = strtok(NULL, " "))
 {
-arg[counter] = value;
-counter++;
-value = strtok(NULL, " ");
+arg[counter++] = strdup(value);
 }
-status = execv(arg[0], arg);
+arg[counter] = NULL;
+status = execvp(arg[0], arg);
 if (status != 0)
 {
 switch (errnum)
 {
 case ENOENT:
-write(STDERR_FD, "404:Command not found\n", strlen("404:Command not found\n"));
+perror("Command not found\n");
 break;
 case EACCES:
-write(STDERR_FD, "Permission denied\n", strlen("Permission denied\n"));
+perror("Permission denied\n");
 break;
 default:
-write(STDERR_FD, "Error detected\n", strlen("Error detected\n"));
+perror("Error executing command\n");
 break;
 }
 }
+for (i = 0; i < counter; i++)
+{
+free(arg[i]);
+arg[i] = NULL;
 }
+}
+free(inputComm);
 return (0);
 }
