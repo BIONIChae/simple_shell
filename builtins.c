@@ -15,14 +15,12 @@
 int my_setenv(const char *variable, const char *value, int overwrite)
 {
 int result;
-
 /* Check for the correct number of arguments */
 if (variable == NULL || value == NULL)
 {
 write(2, "Usage: setenv VARIABLE VALUE\n", 29);
 return (1);
 }
-
 /* Check if the variable already exists */
 if (getenv(variable) != NULL)
 {
@@ -35,16 +33,13 @@ return (1);
 }
 }
 result = setenv(variable, value, 1);
-
 if (result < 0)
 {
-perror("setenv");
+perror("setenv: not found");
 return (1);
 }
-
 return (0);
 }
-
 /**
 * my_unsetenv - removes an environment variable.
 * @variable: a named storage location that holds a value.
@@ -59,18 +54,14 @@ if (variable == NULL)
 write(2, "Usage: unsetenv VARIABLE\n", 25);
 return (1);
 }
-
 result = unsetenv(variable);
-
 if (result < 0)
 {
-perror("unsetenv");
+perror("unsetenv: not found");
 return (1);
 }
-
 return (0);
 }
-
 /**
 * cd - changes the current directory of the process.
 * @argv: an array of strings containing the argument.
@@ -80,7 +71,6 @@ int cd(char **argv)
 {
 int result;
 char cwd[4096];
-
 /* Check for the correct number of arguments */
 if (argv[1] == NULL)
 {
@@ -94,24 +84,20 @@ else
 {
 if (chdir(argv[1]) != 0)
 {
-perror("cd");
+perror("cd: not found");
 return (1);
 }
 }
-
 /* Update the environment variable PWD */
 if (getcwd(cwd, sizeof(cwd)) == NULL)
 {
-perror("getcwd");
+perror("getcwd: not found");
 return (1);
 }
-
 result = my_setenv("PWD", cwd, 1);
-
 if (result != 0)
 {
 return (1);
 }
-
 return (0);
 }
