@@ -15,6 +15,8 @@
 #define MAX_ARGS 1024
 #define SIZE 512
 
+typedef struct Shell Shell;
+
 extern char **environ;
 
 
@@ -36,4 +38,9 @@ int handle_comments(char (*args)[1024]);
 int handle_variables(char (*args)[1024]);
 int alias(char **args);
 int main(void);
+
+Shell *shell_create(void);
+int shell_execute(Shell *shell, const char *command);
+void shell_destroy(Shell *shell);
+
 #endif
