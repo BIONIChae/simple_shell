@@ -10,7 +10,6 @@ int in_path(char *path)
 {
 	char *element;
 	pid_t process_ID = fork();
-	char *buf;
 
 	if (path == NULL)
 	{
@@ -30,14 +29,12 @@ int in_path(char *path)
 		{
 			if (access(element, X_OK) == 0)
 			{
-				buf = "Is an executable\n";
-				write(STDOUT_FILENO, buf, strlen(buf));
+				write(STDOUT_FILENO, "Is an executable\n", strlen("Is an executable\n"));
 				;
 			}
 			element = strtok(NULL, "/");
 		}
-		buf = "1: Executable: not found\n";
-		write(STDOUT_FILENO, buf, strlen(buf));
+		write(STDOUT_FILENO, "Executable: not found\n", strlen("Executable: not found\n"));
 		return (-1);
 	}
 	wait(NULL);
