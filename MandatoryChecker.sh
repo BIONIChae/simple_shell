@@ -154,7 +154,11 @@ rm ./RUNME
 
 #remove the hashs below to enable betty testing
 
-#echo "-->" Check documentation
-#betty-doc *.c *.h
-#echo "-->" Check style
-#betty-style *.c *.h
+echo "-->" Check documentation
+betty-doc *.c *.h
+echo "-->" Check style
+betty-style *.c *.h
+
+#additional testing material
+cd /path/to/your/repo
+./tests.c

@@ -64,40 +64,67 @@ return (0);
 }
 /**
 * cd - changes the current directory of the process.
-* @argv: an array of strings containing the argument.
+* @args: the command-line argument
 * Return: 0 on success, 1 on failure.
 */
-int cd(char **argv)
+int cd(char **args)
 {
-int result;
-char cwd[4096];
-/* Check for the correct number of arguments */
-if (argv[1] == NULL)
+if (args[1] == NULL)
 {
-chdir(getenv("HOME"));
-}
-else if (strcmp(argv[1], "-") == 0)
-{
-chdir(getenv("OLDPWD"));
+write(2, "cd: no directory specified\n", 27);
+return (1);
 }
 else
 {
-if (chdir(argv[1]) != 0)
+if (chdir(args[1]) != 0)
 {
-perror("cd: not found");
+perror("cd");
 return (1);
 }
 }
-/* Update the environment variable PWD */
-if (getcwd(cwd, sizeof(cwd)) == NULL)
+return (0);
+}
+
+/**
+* pwd - Prints the current working directory to the standard output
+* @path: path to directory
+* Return: 0 on success
+*/
+
+int pwd(void)
 {
-perror("getcwd: not found");
+char *path = malloc(1024);
+if (path == NULL)
+{
+perror("pwd");
 return (1);
 }
-result = my_setenv("PWD", cwd, 1);
-if (result != 0)
+if (getcwd(path, 1024) == NULL)
 {
+perror("pwd");
+free(path);
 return (1);
 }
+write(1, path, strlen(path));
+write(1, "\n", 1);
+free(path);
+return (0);
+}
+
+/**
+* echo - Prints the specified arguments to the standard output,
+* seperated by spaces
+* @args: argument value
+* Return: 0 on success
+*/
+int echo(char **args)
+{
+int i;
+for (i = 1; args[i]; i++)
+{
+write(1, args[i], strlen(args[i]));
+write(1, " ", 1);
+}
+write(1, "\n", 1);
 return (0);
 }

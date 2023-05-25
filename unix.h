@@ -13,8 +13,7 @@
 #define STDERR_FD 2
 #define SHELL_NAME "hsh"
 #define MAX_ARGS 1024
-#define SIZE 512
-
+#define SIZE 1024
 
 extern char **environ;
 
@@ -40,5 +39,17 @@ int main(void);
 int handle_setenv(char **args);
 int handle_unsetenv(char **args);
 void execute_command(char **args);
+
+void test_echo(void);
+void test_pwd(void);
+void test_cd(void);
+int execute_ls(void);
+int execute_cat(char *args[]);
+int execute_echo(char *args[]);
+int execute_pwd(void);
+int execute_cd(char *args[]);
+int echo(char **args);
+int pwd(void);
+int cd(char **args);
 
 #endif
