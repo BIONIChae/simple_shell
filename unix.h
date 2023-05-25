@@ -8,6 +8,9 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stddef.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 #define STDOUT_FD 1
 #define STDERR_FD 2

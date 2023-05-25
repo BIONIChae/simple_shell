@@ -28,8 +28,8 @@ return (1);
 
 while ((entry = readdir(dir)) != NULL)
 {
-write(STDOUT_FILENO, entry->d_name, strlen(entry->d_name));
-write(STDOUT_FILENO, "\n", 1);
+write(STDOUT_FD, entry->d_name, strlen(entry->d_name));
+write(STDOUT_FD, "\n", 1);
 }
 
 closedir(dir);
