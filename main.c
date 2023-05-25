@@ -16,11 +16,11 @@
 int main(void)
 {
 size_t size = 0;
-char *inputComm = NULL, *arg[5] = {NULL}, *value;
+char *inputComm = NULL, *arg[6] = {NULL}, *value;
 int status, counter = 0, i = 0;
 while (1)
 {
-write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));
+/*write(STDOUT_FILENO, "Enter a command: ", strlen("Enter a command: "));*/
 if (getline(&inputComm, &size, stdin) == -1)
 {
 perror("Error in getline");
@@ -39,7 +39,7 @@ for (value = strtok(inputComm, " "); value != NULL && counter < 4;
 value = strtok(NULL, " "))
 arg[counter++] = strdup(value);
 arg[counter] = NULL;
-if (counter == 4 && value != NULL)
+if (counter == 5 && value != NULL)
 perror("Too many arguments\n");
 status = execvp(arg[0], arg);
 if (status != 0)
