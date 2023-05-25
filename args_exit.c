@@ -15,7 +15,7 @@
 */
 int _exiting_(int count, char **vec)
 {
-int status = 0;
+int status = STDIN_FILENO;
 int i;
 
 if (count < 2)
@@ -35,10 +35,8 @@ write(STDOUT_FILENO, " ", 1);
 
 write(STDOUT_FILENO, "\n", 1);
 
-if (status != 0 && status != EXIT_SUCCESS)
+if (WIFEXITED(status) && WIFEXITED(status) != EXIT_SUCCESS)
 exit(EXIT_FAILURE);
-
-exit(status);
-/*Reachable code*/
+exit(WIFEXITED(status));
 return (0);
 }

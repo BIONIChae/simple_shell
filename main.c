@@ -112,39 +112,43 @@ return (0);
 */
 int main(void)
 {
-char *line = NULL;
-size_t line_len = 0;
-char *args[1024];
-int ret = 0;
-
-while (getline(&line, &line_len, stdin) != -1)
+size_t size = 0;
+char *inputComm = NULL, *arg[6] = {NULL}, *value;
+int status, counter = 0, i = 0;
+while (1)
 {
-int n = 0;
-args[n++] = strtok(line, " ");
-while ((args[n++] = strtok(NULL, " ")) != NULL)
-if (strcmp(args[0], "cd") == 0)
-ret = execute_cd(args);
-else if (strcmp(args[0], "pwd") == 0)
-ret = execute_pwd();
-else if (strcmp(args[0], "echo") == 0)
-ret = execute_echo(args);
-else if (strcmp(args[0], "ls") == 0)
-ret = execute_ls();
-else if (strcmp(args[0], "cat") == 0)
-ret = execute_cat(args);
-else
+if (getline(&inputComm, &size, stdin) == -1)
 {
-if (fork() == 0)
+perror("Error in getline");
+free(inputComm);
+inputComm = NULL;
+break;
+}
+if (inputComm[strlen(inputComm) - 1] == '\n')
+inputComm[strlen(inputComm) - 1] = '\0';
+if (strcmp(inputComm, "exit") == 0)
+break;
+else if (inputComm[0] == '\0')
+continue;
+counter = 0;
+for (value = strtok(inputComm, " "); value != NULL && counter < 4;
+value = strtok(NULL, " "))
+arg[counter++] = strdup(value);
+arg[counter] = NULL;
+if (counter == 5 && value != NULL)
+perror("Too many arguments\n");
+status = execvp(arg[0], arg);
+if (status != 0)
 {
-execvp(args[0], args);
-perror("Error executing command");
-exit(1);
+perror("Error executing command\n");
+break;
 }
-wait(NULL);
+for (i = 0; i < counter; i++)
+{
+free(arg[i]);
+arg[i] = NULL;
 }
-if (ret != 0)
-exit(ret);
 }
-free(line);
+free(inputComm);
 return (0);
 }
