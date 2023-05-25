@@ -87,7 +87,7 @@ return (0);
 
 /**
 * pwd - Prints the current working directory to the standard output
-* @path: path to directory
+*
 * Return: 0 on success
 */
 
