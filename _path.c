@@ -29,12 +29,14 @@ int in_path(char *path)
 		{
 			if (access(element, X_OK) == 0)
 			{
-				write(STDOUT_FILENO, "Is an executable\n", strlen("Is an executable\n"));
+				write(STDOUT_FILENO, "Is an executable\n",
+						strlen("Is an executable\n"));
 				;
 			}
 			element = strtok(NULL, "/");
 		}
-		write(STDOUT_FILENO, "Executable: not found\n", strlen("Executable: not found\n"));
+		write(STDOUT_FILENO, "Executable: not found\n",
+				strlen("Executable: not found\n"));
 		return (-1);
 	}
 	wait(NULL);

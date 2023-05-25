@@ -45,7 +45,6 @@ ssize_t getline_from_scratch(char **read_line, size_t *size_of_buf)
 			}
 			for (; mem[x] != '\0'; x++)
 				new_mem[x] = mem[x];
-			new_mem[x] = mem[x];
 			free(mem);
 			mem = new_mem;
 		}
