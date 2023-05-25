@@ -1,0 +1,6 @@
+######### Test Description
+command1=$(echo "`#Your test`" | ./hsh 2>&1)
+command2=$(echo "`#Your test`" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check " `#Test comment` "
