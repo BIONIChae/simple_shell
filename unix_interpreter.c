@@ -38,6 +38,8 @@ int interpret(char *cmd_input)
 			continue;
 		}
 		free(cmd_input);
+		cmd_input = NULL;
 	}
+	free(cmd_input);
 	return (0);
 }
