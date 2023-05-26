@@ -110,41 +110,35 @@ return (0);
 */
 int main(void)
 {
-char *inputComm = NULL, *arg[MAX_ARGS] = {NULL}, *value;
-int counter = 0, i;
-while (1)
-{
 size_t size = 0;
-if (getline(&inputComm, &size, stdin) == -1)
-break;
+char *inputComm = NULL, *arg[1024] = {NULL}, *value;
+int status, counter = 0, i = 0;
+while (getline(&inputComm, &size, stdin) != -1)
+{
 if (inputComm[strlen(inputComm) - 1] == '\n')
 inputComm[strlen(inputComm) - 1] = '\0';
 if (strcmp(inputComm, "exit") == 0)
 break;
-if (inputComm[0] == '\0')
+else if (inputComm[0] == '\0')
 continue;
 counter = 0;
-value = strtok(inputComm, " ");
-while (value != NULL && counter < MAX_ARGS)
-{
+for (value = strtok(inputComm, "\n ");
+value != NULL && counter < 1024; value = strtok(NULL, "\n "))
 arg[counter++] = strdup(value);
-value = strtok(NULL, " ");
-}
 arg[counter] = NULL;
-if (counter == 0)
-continue;
-if (strcmp(arg[0], "cd") == 0)
-execute_cd(arg);
-else if (strcmp(arg[0], "cat") == 0)
-execute_cat(arg);
-else if (strcmp(arg[0], "pwd") == 0)
-execute_pwd();
-else if (strcmp(arg[0], "ls") == 0)
-execute_ls();
-else
-execute_command(arg);
+if (fork() == 0)
+{
+status = execvp(arg[0], arg);
+if (status != 0)
+perror(arg[0]);
+exit(EXIT_FAILURE);
+}
+wait(NULL);
 for (i = 0; i < counter; i++)
+{
 free(arg[i]);
+arg[i] = NULL;
+}
 }
 free(inputComm);
 return (0);
