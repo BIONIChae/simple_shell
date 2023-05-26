@@ -43,6 +43,6 @@ if (wait_pid == -1)
 perror("waitpid");
 return;
 }
-} while (!WIFEXITED(status) && !WIFSIGNALED(status))
+} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 }
 }
